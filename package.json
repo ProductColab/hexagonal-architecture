@@ -1,0 +1,28 @@
+{
+  "name": "sneak",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "bun --bun cucumber-js -p default",
+    "test:unit": "bun test",
+    "db:generate": "drizzle-kit generate:sqlite",
+    "db:migrate": "bun run src/infrastructure/database/migrate.ts",
+    "db:studio": "drizzle-kit studio"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/bun": "^1.2.5",
+    "@types/chai": "^5.2.0",
+    "bun": "^1.2.5",
+    "chai": "^5.2.0",
+    "drizzle-kit": "^0.30.5"
+  },
+  "dependencies": {
+    "@cucumber/cucumber": "^11.2.0",
+    "@libsql/client": "^0.15.0",
+    "drizzle-orm": "^0.40.1"
+  }
+}
