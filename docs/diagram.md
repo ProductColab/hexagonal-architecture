@@ -2,309 +2,264 @@
 
 ```mermaid
 classDiagram
-class Company {
-+String name
-+String industry
-+String foundedDate
-+String fundingStatus
-+List~GrowthMetric~ growthMetrics
-+int marketShare
-+List~Product~ products
-+addProduct(Product product)
-+trackGrowthMetric(GrowthMetric metric)
-}
+    %% New Concepts
 
-    class Product {
+    class CompetitiveEvent {
         +String name
+        +Date occurred
+        +EventType type
         +String description
-        +PricingStructure pricingStructure
-        +List~Feature~ features
-        +List~MarketSegment~ targetSegments
-        +List~Review~ reviews
-        +List~TechComponent~ techStack
-        +List~DistributionChannel~ distributionChannels
-        +List~GeographicRegion~ geographicPresence
-        +SalesModel salesModel
-        +ContentStrategy contentStrategy
-        +CustomerSuccessApproach customerSuccessApproach
-        +EngagementMetrics engagementMetrics
-        +List~RegulatoryFactor~ regulatoryFactors
-        +addFeature(Feature feature)
-        +updatePricing(PricingStructure pricing)
-        +addTargetSegment(MarketSegment segment)
-        +expandToRegion(GeographicRegion region)
+        +double marketImpactScore
+        +List~Company~ involvedCompanies
+        +List~Product~ affectedProducts
+        +analyzeImpact()
+        +categorizeSignificance()
     }
 
-    class Feature {
+    class EventType {
+        <<enumeration>>
+        ACQUISITION
+        MERGER
+        PRODUCT_LAUNCH
+        LEADERSHIP_CHANGE
+        PARTNERSHIP_ANNOUNCEMENT
+        FUNDING_EVENT
+        MARKET_EXIT
+        REGULATORY_EVENT
+    }
+
+    class IntelligenceSource {
         +String name
-        +String description
-        +boolean isCore
-        +Date introduced
-        +compareWith(Feature otherFeature)
+        +SourceType type
+        +double credibilityScore
+        +double accessLevel
+        +Date lastContact
+        +List~String~ specialtyAreas
+        +String relationshipNotes
+        +validateInformation(String information)
+        +calculateReliability()
     }
 
-    class PricingStructure {
-        +String model
-        +List~PricingTier~ tiers
-        +boolean hasFreeTier
-        +boolean isUsageBased
-        +calculateTCO()
+    class SourceType {
+        <<enumeration>>
+        INDUSTRY_EXPERT
+        FORMER_EMPLOYEE
+        CHANNEL_PARTNER
+        CUSTOMER
+        PUBLIC_EVENT
+        SOCIAL_MEDIA
+        ANALYST_REPORT
+        SALES_TEAM_FEEDBACK
     }
 
-    class PricingTier {
-        +String name
-        +double price
-        +String billingCycle
-        +List~Feature~ includedFeatures
-    }
-
-    class MarketSegment {
-        +String name
-        +String description
-        +String customerSize
-        +String industry
-        +List~CustomerProfile~ profiles
-    }
-
-    class CustomerProfile {
-        +String role
-        +String painPoints
-        +String decisionFactors
-        +String budgetRange
-    }
-
-    class Review {
-        +String source
-        +Date date
-        +int rating
-        +String content
-        +SentimentAnalysis sentiment
-    }
-
-    class SentimentAnalysis {
-        +double score
-        +List~String~ keyPhrases
-        +List~String~ strengths
-        +List~String~ weaknesses
-        +analyzeSentiment(String text)
-    }
-
-    class MarketingCampaign {
-        +String channel
-        +String message
-        +Date startDate
-        +Date endDate
-        +List~MarketSegment~ targetSegments
-        +double budget
-        +double ROI
-        +analyzeEffectiveness()
-    }
-
-    class TechComponent {
+    class Benchmark {
         +String name
         +String category
-        +String version
-        +List~String~ capabilities
+        +String measurementUnit
+        +double industryAverage
+        +Map~Product, Double~ scores
+        +normalizeScores()
+        +identifyOutliers()
     }
 
-    class IndustryTrend {
+    class CompetitiveAdvantage {
         +String name
         +String description
-        +double relevanceScore
+        +AdvantageType type
+        +double sustainabilityScore
         +Date identified
-        +List~Company~ affectedCompanies
+        +List~Feature~ contributingFeatures
+        +assessSustainability()
+        +compareWithCompetitors(List~Company~ competitors)
     }
 
-    class GrowthMetric {
-        +String name
-        +double value
-        +Date date
-        +String unit
-        +trackHistory()
-    }
-
-    class CompetitiveAnalysis {
-        +Date created
-        +List~Product~ comparedProducts
-        +List~Feature~ gapAnalysis
-        +Map benchmarkScores
-        +List~String~ opportunities
-        +runAnalysis()
-        +generateReport()
-    }
-
-    class Alert {
-        +String type
-        +Date detected
-        +String description
-        +String significance
-        +String source
-        +AlertCategory category
-        +notify()
-    }
-
-    class AlertCategory {
+    class AdvantageType {
         <<enumeration>>
-        PRICING_CHANGE
-        FEATURE_LAUNCH
-        SENTIMENT_SHIFT
-        MARKETING_CHANGE
-        FUNDING_EVENT
-        INDUSTRY_TREND
-        COMPETITIVE_VULNERABILITY
+        COST_LEADERSHIP
+        DIFFERENTIATION
+        FOCUS_STRATEGY
+        TECHNOLOGY
+        NETWORK_EFFECT
+        SWITCHING_COST
+        BRAND_EQUITY
+        REGULATORY_ADVANTAGE
     }
 
-    Company "1" *-- "*" Product: offers
-    Product "1" *-- "*" Feature: contains
-    Product "1" *-- "1" PricingStructure: priced with
-    PricingStructure "1" *-- "*" PricingTier: composed of
-    PricingTier "*" o-- "*" Feature: includes
-    Product "*" o-- "*" MarketSegment: targets
-    MarketSegment "1" *-- "*" CustomerProfile: profiles
-    Product "1" *-- "*" Review: receives
-    Review "1" *-- "1" SentimentAnalysis: analyzed by
-    Company "1" *-- "*" MarketingCampaign: runs
-    MarketingCampaign "*" o-- "*" MarketSegment: targets
-    Product "1" *-- "*" TechComponent: uses
-    Company "*" o-- "*" IndustryTrend: affected by
-    class DistributionChannel {
+    class MarketObstacle {
         +String name
-        +String channelType
-        +double revenuePercentage
-        +List~String~ requirements
-        +double customerAcquisitionCost
+        +String description
+        +ObstacleType type
+        +double impactScore
+        +List~Strategy~ mitigationStrategies
+        +List~MarketSegment~ affectedSegments
+        +assessImpact()
+        +developMitigation()
+    }
+
+    class ObstacleType {
+        <<enumeration>>
+        BARRIER_TO_ENTRY
+        SWITCHING_COST
+        REGULATORY_CONSTRAINT
+        TECHNOLOGY_GAP
+        MARKET_SATURATION
+        CUSTOMER_INERTIA
+        RESOURCE_CONSTRAINT
+        ECOSYSTEM_LOCK_IN
+    }
+
+    class Strategy {
+        +String name
+        +String description
+        +List~String~ tactics
+        +double expectedEffectiveness
+        +Date implementationDate
+        +monitorEffectiveness()
+    }
+
+    class PartnershipNetwork {
+        +Company primaryCompany
+        +List~Partnership~ partnerships
+        +double networkStrength
+        +List~String~ strategicGoals
+        +identifyKeyPartners()
+        +assessNetworkValue()
+    }
+
+    class Partnership {
+        +Company partner
+        +PartnershipType type
+        +Date established
+        +List~String~ sharedResources
+        +double strategicImportance
+        +assessHealthScore()
+    }
+
+    class PartnershipType {
+        <<enumeration>>
+        TECHNOLOGY_INTEGRATION
+        RESELLER
+        CO_MARKETING
+        JOINT_VENTURE
+        SUPPLY_CHAIN
+        INNOVATION_PARTNERSHIP
+        DISTRIBUTION
+        STRATEGIC_ALLIANCE
+    }
+
+    class TalentIntelligence {
+        +Company company
+        +Map~String, Integer~ departmentSizes
+        +List~KeyPersonnel~ keyPeople
+        +double attritionRate
+        +List~String~ recruitmentFocus
+        +Date lastUpdated
+        +identifyTalentGaps()
+        +trackLeadershipChanges()
+    }
+
+    class KeyPersonnel {
+        +String name
+        +String role
+        +List~String~ expertise
+        +String background
+        +Date joinedCompany
+        +List~String~ priorCompanies
+        +double influenceScore
+        +trackMovements()
+    }
+
+    class AdoptionLifecycle {
+        +Product product
+        +AdoptionStage currentStage
+        +double adoptionRate
+        +double marketPenetration
+        +Date stageEntryDate
+        +Map~MarketSegment, AdoptionStage~ segmentAdoption
+        +predictNextStage()
+        +compareWithCompetitors()
+    }
+
+    class AdoptionStage {
+        <<enumeration>>
+        INNOVATORS
+        EARLY_ADOPTERS
+        EARLY_MAJORITY
+        LATE_MAJORITY
+        LAGGARDS
+        END_OF_LIFE
+    }
+
+    class CompetitiveResponsePattern {
+        +Company company
+        +String patternName
+        +String description
+        +ResponseType typicalResponse
+        +double responseTimeAvg
+        +List~CompetitiveEvent~ pastResponses
+        +double predictabilityScore
+        +predictResponse(CompetitiveEvent event)
         +analyzeEffectiveness()
     }
 
-    class GeographicRegion {
-        +String name
-        +String localizationStatus
-        +double marketPenetration
-        +List~RegulatoryFactor~ localRegulations
-        +calculateMarketSize()
+    class ResponseType {
+        <<enumeration>>
+        PRICE_ADJUSTMENT
+        FEATURE_MATCHING
+        MARKETING_CAMPAIGN
+        PARTNERSHIP
+        ACQUISITION
+        IGNORE
+        LEGAL_ACTION
+        PRODUCT_PIVOT
     }
 
-    class SalesModel {
-        +boolean isSelfServe
-        +boolean isSalesLed
-        +int salesTeamSize
-        +String salesCycle
-        +double averageDealSize
-        +calculateConversionRate()
-    }
-
-    class ContentStrategy {
-        +List~String~ contentTypes
-        +int publishingFrequency
-        +List~String~ keyTopics
-        +String thoughtLeadershipFocus
-        +double engagementRate
-        +analyzeImpact()
-    }
-
-    class CustomerSuccessApproach {
-        +String onboardingProcess
-        +List~String~ supportChannels
-        +double customerSatisfactionScore
-        +double retentionRate
-        +Map~String, String~ successMetrics
-        +calculateLTV()
-    }
-
-    class EngagementMetrics {
-        +double dau
-        +double mau
-        +double dauMauRatio
-        +double activationRate
-        +double retentionRate
-        +Map~String, Double~ featureUsageStats
-        +trackTrends()
-    }
-
-    class RegulatoryFactor {
-        +String name
+    class IntelligenceGap {
+        +String topic
         +String description
-        +String jurisdiction
-        +Date effectiveDate
-        +double complianceImpact
-        +assessRisk()
+        +double businessImpact
+        +GapPriority priority
+        +List~IntelligenceSource~ potentialSources
+        +Date identified
+        +createResearchPlan()
+        +trackProgress()
     }
 
-    Product "*" --o "1" CompetitiveAnalysis: analyzed in
-    CompetitiveAnalysis "1" *-- "*" Alert: generates
-    Product "1" *-- "*" DistributionChannel: distributed through
-    Product "1" *-- "*" GeographicRegion: available in
-    Product "1" *-- "1" SalesModel: sold via
-    Product "1" *-- "1" ContentStrategy: marketed with
-    Product "1" *-- "1" CustomerSuccessApproach: supported by
-    Product "1" *-- "1" EngagementMetrics: measured by
-    Product "*" o-- "*" RegulatoryFactor: affected by
-    class HistoricalChange {
-        +Date timestamp
-        +String entityType
-        +String entityId
-        +String attributeChanged
-        +String oldValue
-        +String newValue
-        +String significance
-        +trackTrend()
+    class GapPriority {
+        <<enumeration>>
+        CRITICAL
+        HIGH
+        MEDIUM
+        LOW
+        FUTURE_CONCERN
     }
 
-    class MarketMap {
-        +String name
-        +String xAxisMetric
-        +String yAxisMetric
-        +Date created
-        +List~ProductPosition~ positions
-        +generateVisualization()
-    }
+    %% Relationships
 
-    class ProductPosition {
-        +Product product
-        +double xCoordinate
-        +double yCoordinate
-        +String quadrantName
-        +Date positionDate
-        +trackPositionChange()
-    }
-
-    class DataSource {
-        +String name
-        +String type
-        +double reliabilityScore
-        +int updateFrequencyDays
-        +boolean isActive
-        +Date lastUpdated
-        +validateConnection()
-    }
-
-    class StrategicInsight {
-        +String title
-        +String description
-        +Date generated
-        +List~CompetitiveAnalysis~ supportingData
-        +double confidenceScore
-        +List~String~ actionableSteps
-        +prioritize()
-    }
-
-    class UXComparison {
-        +Product product
-        +int usabilityScore
-        +List~String~ designPatterns
-        +Map~String, Integer~ taskCompletionTimes
-        +List~String~ strengthAreas
-        +List~String~ improvementAreas
-        +compareWithCompetitor(Product competitor)
-    }
-
-    Product "1" *-- "*" HistoricalChange: tracked by
-    MarketMap "1" *-- "*" ProductPosition: contains
-    ProductPosition "1" o-- "1" Product: represents
-    Company "*" --o "*" DataSource: uses
-    CompetitiveAnalysis "1" *-- "*" StrategicInsight: generates
-    Product "1" *-- "1" UXComparison: evaluated by
-    StrategicInsight "*" --o "*" Alert: may trigger
-    Feature "1" *-- "*" HistoricalChange: tracks changes in
-    Product "*" o-- "*" DataSource: data collected from
+    Company "1" *-- "*" CompetitiveEvent: participates in
+    CompetitiveEvent "*" o-- "*" Product: affects
+    IntelligenceSource "*" -- "*" IntelligenceGap: addresses
+    Company "*" -- "*" IntelligenceSource: information from
+    CompetitiveAnalysis "1" *-- "*" Benchmark: uses
+    Benchmark "*" -- "*" Product: evaluates
+    Company "1" *-- "*" CompetitiveAdvantage: possesses
+    CompetitiveAdvantage "*" -- "*" Feature: enabled by
+    Product "*" -- "*" MarketObstacle: faces
+    MarketObstacle "1" *-- "*" Strategy: overcome by
+    Company "1" *-- "1" PartnershipNetwork: maintains
+    PartnershipNetwork "1" *-- "*" Partnership: consists of
+    Partnership "*" -- "*" Company: connects
+    Company "1" *-- "1" TalentIntelligence: analyzed by
+    TalentIntelligence "1" *-- "*" KeyPersonnel: tracks
+    Product "1" *-- "1" AdoptionLifecycle: exists in
+    AdoptionLifecycle "*" -- "*" MarketSegment: varies by
+    Company "1" *-- "*" CompetitiveResponsePattern: exhibits
+    CompetitiveResponsePattern "*" -- "*" CompetitiveEvent: triggered by
+    Company "1" *-- "*" IntelligenceGap: identifies
+    IntelligenceGap "*" -- "*" CompetitiveAnalysis: informs
+    HistoricalChange "*" -- "*" CompetitiveEvent: documents
+    StrategicInsight "*" -- "*" CompetitiveAdvantage: leverages
+    Alert "*" -- "1" CompetitiveEvent: may signal
+    IndustryTrend "*" -- "*" CompetitiveEvent: influenced by
+    StrategicInsight "*" -- "*" IntelligenceGap: addresses
 ```
